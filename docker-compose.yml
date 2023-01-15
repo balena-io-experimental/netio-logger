@@ -1,0 +1,7 @@
+version: '2'
+services:
+  netio-logger:
+    build: .
+    restart: unless-stopped
+    labels:
+        io.balena.features.procfs: '1'
