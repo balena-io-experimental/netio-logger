@@ -3,5 +3,6 @@ services:
   netio-logger:
     build: .
     restart: unless-stopped
+    network_mode: host
     labels:
         io.balena.features.procfs: '1'
