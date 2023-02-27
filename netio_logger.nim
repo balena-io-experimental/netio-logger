@@ -6,8 +6,6 @@
 import asyncdispatch, os, parseutils, strformat, strutils, tables
 import psutil
 
-# byte counters for interface
-let counters = {"rx_bytes": 0, "tx_bytes": 0}.newTable
 # last rx/tx values for interface
 let lastValues = {"rx_bytes": 0, "tx_bytes": 0}.newTable
 var ifname: string
@@ -34,10 +32,11 @@ proc collectCb(fd: AsyncFD) : bool {.gcsafe.} =
     ## Timer callback to collect readings and update counters.
     let ifnameLocal = ifname
     let readings = {"rx_bytes": 0, "tx_bytes": 0}.newTable
+    let counters = {"rx_bytes": 0, "tx_bytes": 0}.newTable
 
     collect(ifnameLocal, readings)
     for k, v in readings.mpairs:
-        counters[k] = counters[k] + v - lastValues[k]
+        counters[k] = v - lastValues[k]
         lastValues[k] = v
     echo &"{counters[\"rx_bytes\"]},{counters[\"tx_bytes\"]}"
     # must return false for a periodic timer
@@ -59,7 +58,7 @@ proc initVars() =
     except:
         ifname = "unknown"
 
-    discard parseInt(getEnv("READING_INTERVAL_SEC", "10"), readingInterval)
+    discard parseInt(getEnv("READING_INTERVAL_SEC", "300"), readingInterval)
     readingInterval *= 1000
     echo &"Reading interval: {readingInterval} ms"
 
