@@ -7,7 +7,7 @@ This fleet (netio-logger) logs network I/O metrics on a configurable interval. I
 | Fleet | Resident Memory | Disk | Containers |
 | -------- | ------------ | ---- | ----- |
 | NML | 224 MB  | 320 MB | 3 |
-| netio-logger | 39 MB | 30 MB | 1 |
+| netio-logger | 39 MB | 36 MB | 1 |
 
 Resident memory includes approximately 38 MB per container for the `balena-containerd-shim` process. The netio-logger executable itself uses 1 MB of resident memory and the executable size is 256 KB.
 
