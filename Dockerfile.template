@@ -3,7 +3,7 @@ FROM balenalib/%%BALENA_ARCH%%-alpine:3.17-build as build
 # Install nim compiler and packages, and build executable
 RUN install_packages nim nimble
 RUN nimble refresh
-RUN nimble install psutil
+RUN nimble install -y psutil
 
 COPY netio_logger.nim ./
 RUN nim c -d:release -o:netio-logger netio_logger.nim
